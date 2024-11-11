@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker: # Use docker executor
-      - image: nixos/nix:current # Specify your Docker image in a list
+      - image: nixos/nix:2.18.9-arm64 # Specify your Docker image in a list
     resource_class: arm.large
     environment:
       CACHIX_NAME: zen-browser
