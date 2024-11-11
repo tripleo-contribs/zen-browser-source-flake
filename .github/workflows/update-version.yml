@@ -26,11 +26,11 @@ jobs:
 
       - name: Update flake.nix with new release version
         run: |
-          sed -i '11s/version = ".*";/version = "${RELEASE_TAG}";/' flake.nix
+          sed -i '18s/version = ".*";/version = "${RELEASE_TAG}";/' flake.nix
 
       - name: Update flake.nix with new Firefox version
         run: |
-          sed -i '12s/firefoxVersion = ".*";/firefoxVersion = "${FIREFOX_VERSION}";/' flake.nix
+          sed -i '19s/firefoxVersion = ".*";/firefoxVersion = "${FIREFOX_VERSION}";/' flake.nix
 
       - name: Commit changes
         run: |

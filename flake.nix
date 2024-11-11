@@ -7,10 +7,6 @@
   };
 
   outputs =
-    let
-      version = "1.0.1-a.19";
-      firefoxVersion = "132.0.1";
-    in
     inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
@@ -18,6 +14,10 @@
         "aarch64-linux"
       ];
       perSystem =
+        let
+          version = "1.0.1-a.19";
+          firefoxVersion = "132.0.1";
+        in
         {
           pkgs,
           ...
