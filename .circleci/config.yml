@@ -10,7 +10,7 @@ jobs:
     steps:
       - run:
           name: Install CircleCI CLI
-          command: nix-env -iA nixpkgs.circleci
+          command: nix-env -iA nixpkgs.circleci-cli
       - run:
           name: Set up Cachix
           command: |
