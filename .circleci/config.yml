@@ -14,7 +14,6 @@ jobs:
             nix-env -iA nixpkgs.cachix nixpkgs.bash nixpkgs.git nixpkgs.curl
             cachix use $CACHIX_NAME
             cachix authtoken $CACHIX_AUTH_TOKEN
-      - checkout
       - run:
           name: Build and Push
           command: |
