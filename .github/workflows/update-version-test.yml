@@ -1,4 +1,4 @@
-name: Update Flake Version and Firefox Version
+name: Test Update Flake Version and Firefox Version
 
 on:
   workflow_dispatch:
@@ -50,6 +50,6 @@ jobs:
           git commit -m "Update version to $RELEASE_TAG and Firefox version to $FIREFOX_VERSION"
 
       - name: Push changes
-        uses: ad-m/github-push-action@v0.6
+        uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
