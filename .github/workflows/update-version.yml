@@ -1,32 +1,33 @@
 name: Update Flake Version and Firefox Version
 
 on:
-  release:
-    types: [published]
+  schedule:
+    - cron: '0 0 * * *'
 
 jobs:
   update-versions:
     runs-on: ubuntu-latest
-    if: contains(github.event.release.tag_name, 'a')
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@main
+      - name: Fetch latest release tag of zen-browser/desktop
+        run: |
+          RELEASE_TAG=$(curl -s https://api.github.com/repos/zen-browser/desktop/releases/latest | jq -r .tag_name)
 
-      - name: Update flake
-        run: nix flake update
+          # Check if the tag contains the letter 'a'
+          if [[ "$RELEASE_TAG" != *a* ]]; then
+            exit 1
+          fi
 
-      - name: Set release tag as variable
-        id: set_release_tag
-        run: echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+          # Save tag as an output (optional)
+          echo "release_tag=$RELEASE_TAG" >> $GITHUB_ENV
 
       - name: Fetch surfer.json and extract Firefox version
         id: fetch_firefox_version
         run: |
-          curl -sL "https://raw.githubusercontent.com/zen-browser/desktop/refs/tags/${{ github.event.release.tag_name }}/surfer.json" -o surfer.json
+          curl -sL "https://raw.githubusercontent.com/zen-browser/desktop/refs/tags/${{ env.release_tag }}/surfer.json" -o surfer.json
           FIREFOX_VERSION=$(jq -r '.version.version' surfer.json)
           echo "FIREFOX_VERSION=${FIREFOX_VERSION}" >> $GITHUB_ENV
 
@@ -37,6 +38,12 @@ jobs:
       - name: Update flake.nix with new Firefox version
         run: |
           sed -i "19s/firefoxVersion = \".*\";/firefoxVersion = \"${FIREFOX_VERSION}\";/" flake.nix
+
+      # - name: Install Nix
+      #   uses: DeterminateSystems/nix-installer-action@main
+
+      # - name: Update flake
+      #   run: nix flake update
 
       - name: Commit changes
         run: |
