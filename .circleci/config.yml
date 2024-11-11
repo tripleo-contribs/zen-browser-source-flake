@@ -1,3 +1,5 @@
+version: 2.1
+
 jobs:
   build:
     machine:
@@ -10,7 +12,7 @@ jobs:
       - run:
           name: Set up Cachix
           command: |
-            nix-env -iA nixpkgs.cachix nixpkgs.bash
+            nix-env -iA nixpkgs.cachix nixpkgs.bash nixpkgs.jq
             cachix use $CACHIX_NAME
             cachix authtoken $CACHIX_AUTH_TOKEN
       - run: |
