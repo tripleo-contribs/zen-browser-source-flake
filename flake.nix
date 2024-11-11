@@ -7,6 +7,10 @@
   };
 
   outputs =
+    let
+      version = "1.0.1-a.19";
+      firefoxVersion = "132.0.1";
+    in
     inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
@@ -20,7 +24,9 @@
         }:
         {
           packages = rec {
-            zen-browser-unwrapped = pkgs.callPackage ./zen-browser-unwrapped.nix { };
+            zen-browser-unwrapped = pkgs.callPackage ./zen-browser-unwrapped.nix {
+              inherit version firefoxVersion;
+            };
             zen-browser = pkgs.callPackage ./zen-browser.nix { inherit zen-browser-unwrapped; };
             default = zen-browser;
           };

@@ -105,6 +105,9 @@
     !privacySupport && !stdenv.hostPlatform.isRiscV && !stdenv.hostPlatform.isMusl,
   geolocationSupport ? !privacySupport,
   webrtcSupport ? !privacySupport,
+
+  version,
+  firefoxVersion,
 }:
 let
   surfer = buildNpmPackage {
@@ -168,7 +171,7 @@ let
 in
 buildStdenv.mkDerivation (finalAttrs: {
   pname = "zen-browser-unwrapped";
-  version = "1.0.1-a.19";
+  inherit version;
 
   src = fetchFromGitHub {
     owner = "zen-browser";
@@ -184,7 +187,7 @@ buildStdenv.mkDerivation (finalAttrs: {
   # The Firefox version is specified by `zen-browser` in the `surfer.json` file.
   #
   # We need to manually set the version here to avoid IFD.
-  firefoxVersion = "132.0.1";
+  inherit firefoxVersion;
   firefoxSrc = fetchurl {
     url = "mirror://mozilla/firefox/releases/${finalAttrs.firefoxVersion}/source/firefox-${finalAttrs.firefoxVersion}.source.tar.xz";
     hash = "sha256-XAMbVywdpyZnfi/5e2rVp+OyM4em/DljORy1YvgKXkg=";
