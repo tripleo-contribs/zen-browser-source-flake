@@ -8,13 +8,16 @@ jobs:
     environment:
       CACHIX_NAME: zen-browser
     steps:
-      - checkout
+      - run:
+          name: Install CircleCI CLI
+          command: nix-env -iA nixpkgs.circleci
       - run:
           name: Set up Cachix
           command: |
             nix-env -iA nixpkgs.cachix nixpkgs.bash
             cachix use $CACHIX_NAME
             cachix authtoken $CACHIX_AUTH_TOKEN
+      - checkout
       - run:
           name: Build and Push
           command: |
