@@ -1,17 +1,10 @@
-version: 2.1
-
-workflows:
-  version: 2
-  workflow:
-    jobs:
-      - build
 jobs:
   build:
     machine:
-      image: nixos/nix:latest
+      image: nixos/nix:current
+      resource_class: arm.large
       environment:
         CACHIX_NAME: zen-browser
-    resource_class: arm.xlarge
     steps:
       - checkout:
       - run:
@@ -24,3 +17,8 @@ jobs:
           nix build --extra-experimental-features nix-command --extra-experimental-features flakes --json --accept-flake-config \
             | jq -r '.[].outputs | to_entries[].value' \
             | cachix push zen-browser
+
+workflows:
+  build:
+    jobs:
+      - build
