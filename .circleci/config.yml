@@ -11,7 +11,7 @@ jobs:
       - run:
           name: Set up environment
           command: |
-            nix-env -iA nixpkgs.cachix nixpkgs.bash nixpkgs.git nixpkgs.curl
+            nix-env -iA nixpkgs.cachix nixpkgs.bash nixpkgs.git nixpkgs.curl nixpkgs.jq
             cachix use $CACHIX_NAME
             cachix authtoken $CACHIX_AUTH_TOKEN
       - run:
