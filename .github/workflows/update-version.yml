@@ -17,7 +17,7 @@ jobs:
         uses: DeterminateSystems/nix-installer-action@main
 
       - name: Update flake
-        runs: nix flake update
+        run: nix flake update
 
       - name: Set release tag as variable
         id: set_release_tag
