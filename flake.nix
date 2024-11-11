@@ -29,7 +29,7 @@
 
   nixConfig = {
     extra-substituters = [
-      "zen-browser.cachix.org"
+      "https://zen-browser.cachix.org"
     ];
     extra-trusted-public-keys = [
       "zen-browser.cachix.org-1:z/QLGrEkiBYF/7zoHX1Hpuv0B26QrmbVBSy9yDD2tSs="
