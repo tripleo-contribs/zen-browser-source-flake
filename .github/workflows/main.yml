@@ -14,8 +14,8 @@ jobs:
       - uses: cachix/cachix-action@v14
         with:
           name: zen-browser
-          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - run: |
-          nix build --json --accept-flake-config \
+          nix build --max-jobs 1 --json --accept-flake-config \
             | jq -r '.[].outputs | to_entries[].value' \
             | cachix push zen-browser

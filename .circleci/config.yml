@@ -17,7 +17,7 @@ jobs:
       - run:
           name: Build and Push
           command: |
-            nix build --extra-experimental-features nix-command --extra-experimental-features flakes --json --accept-flake-config "github:youwen5/zen-browser-source-flake" \
+            nix build --max-jobs 1 --extra-experimental-features nix-command --extra-experimental-features flakes --json --accept-flake-config "github:youwen5/zen-browser-source-flake" \
             | jq -r '.[].outputs | to_entries[].value' \
             | cachix push zen-browser
 
