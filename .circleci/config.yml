@@ -1,0 +1,26 @@
+version: 2.1
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build
+jobs:
+  build:
+    machine:
+      image: nixos/nix:latest
+      environment:
+        CACHIX_NAME: zen-browser
+    resource_class: arm.xlarge
+    steps:
+      - checkout:
+      - run:
+          name: Set up Cachix
+          command: |
+            nix-env -iA nixpkgs.cachix nixpkgs.bash
+            cachix use $CACHIX_NAME
+            cachix authtoken $CACHIX_AUTH_TOKEN
+      - run: |
+          nix build --extra-experimental-features nix-command --extra-experimental-features flakes --json --accept-flake-config \
+            | jq -r '.[].outputs | to_entries[].value' \
+            | cachix push zen-browser
