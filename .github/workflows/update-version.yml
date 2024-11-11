@@ -13,6 +13,12 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Update flake
+        runs: nix flake update
+
       - name: Set release tag as variable
         id: set_release_tag
         run: echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
