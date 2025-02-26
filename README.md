@@ -1,5 +1,11 @@
 # Zen Browser Flake
 
+> [!WARNING]
+> This repo has been archived. Feel free to fork it if you need to build Zen
+> Browser from source using Nix, but those who are just looking to use the
+> browser should use <https://github.com/youwen5/zen-browser-flake>, which does
+> not require building from source and patches upstream binaries for Nix.
+
 A flake for Zen Browser that builds it from source. Supports `aarch64-linux`
 and `x86_64-linux`. Binary cache included.
 
