@@ -334,6 +334,7 @@ buildStdenv.mkDerivation (finalAttrs: {
           sed -i 's/x86-\(64\|64-v3\)/native/g' ./configs/linux/mozconfig
           sed -i 's/x86_64-pc-linux/aarch64-linux-gnu/g' ./configs/linux/mozconfig
 
+          # todo We would like to disable this on x64 too
           # eme/widevine must be disabled on arm64 (thx google)
           sed -i '/--enable-eme/s/^/# /' ./configs/common/mozconfig
           sed -i 's/-msse3//g' ./configs/linux/mozconfig
@@ -357,6 +358,8 @@ buildStdenv.mkDerivation (finalAttrs: {
       echo "ac_add_options $flag" >> mozconfig
     done
   '';
+
+  # todo Maybe we should break this up??
 
   # To the person reading this wondering what is going on here, this is what
   # happens when a build process relies on Git. Normally you would use `fetchgit`
@@ -400,8 +403,9 @@ buildStdenv.mkDerivation (finalAttrs: {
       sh scripts/copy-language-pack.sh "$lang"
     done
 
-    Xvfb :2 -screen 0 1024x768x24 &
-    export DISPLAY=:2
+    # If this is visual testing, we don't care, technically
+    # Xvfb :2 -screen 0 1024x768x24 &
+    # export DISPLAY=:2
   '';
 
   buildPhase = ''
